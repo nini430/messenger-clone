@@ -36,12 +36,12 @@ const AuthForm = () => {
     <div className='bg-white rounded-md shadow py-6 px-4'>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
                 {variant==='REGISTER' && (
-                    <Input label='Name' id='name' errors={errors} register={register}/>
+                    <Input disabled={isLoading} label='Name' id='name' errors={errors} register={register}/>
                 )}
-                    <Input type='email' label='Email' id='email' errors={errors} register={register} />
-                    <Input type='password' label='Password' id='password' errors={errors} register={register} />
+                    <Input disabled={isLoading} type='email' label='Email' id='email' errors={errors} register={register} />
+                    <Input disabled={isLoading} type='password' label='Password' id='password' errors={errors} register={register} />
                     <div>
-                    <Button type='submit' fullWidth>{variant==='LOGIN'?'Sign In':'Sign Up'}</Button>
+                    <Button disabled={isLoading} type='submit' fullWidth>{variant==='LOGIN'?'Sign In':'Sign Up'}</Button>
                     </div>
             </form>
             <div className='mt-6 w-full'>
