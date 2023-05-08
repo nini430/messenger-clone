@@ -1,5 +1,7 @@
 'use client'
-
+import axios from 'axios'
+import {toast} from 'react-hot-toast'
+import {signIn} from 'next-auth/react'
 import Button from '@/app/components/Button'
 import Input from '@/app/components/inputs/Input'
 import {BsGoogle,BsGithub} from 'react-icons/bs'
@@ -19,17 +21,33 @@ const AuthForm = () => {
         }
     },[variant]);
     const {register,formState:{errors},handleSubmit}=useForm<FieldValues>({defaultValues:{name:'',email:'',password:''}});
-    const onSubmit:SubmitHandler<FieldValues>=(data)=>{
+    const onSubmit:SubmitHandler<FieldValues>=async(data)=>{
         setIsLoading(true);
         if(variant==='LOGIN') {
-
+            signIn('credentials',{...data,redirect:false}).then((callback)=>{
+                if(callback?.error) {
+                    toast.error(callback.error);
+                }
+                if(!callback?.error && callback?.ok) {
+                    toast.success('Logged in')
+                }
+            }).finally(()=>setIsLoading(false))
         }
         if(variant==='REGISTER') {
+           axios.post('/api/register',data).catch(err=>toast.error(err.response.data)).finally(()=>setIsLoading(false));
 
         }
     }
     const socialSignIn=(action:string)=>{
         setIsLoading(true);
+        signIn(action,{redirect:false}).then(callback=>{
+            if(callback?.error) {
+                toast.error(callback.error);
+            }
+            if(!callback?.error && callback?.ok) {
+                toast.success('Logged In')
+            }
+        })
     }
   return (
     <div className='mt-6 sm:mx-auto sm:max-w-md sm:w-full'>

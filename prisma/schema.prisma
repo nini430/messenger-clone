@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id             String    @id @map("_id") @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
   email          String? @unique
   hashedPassword String?
@@ -31,7 +31,7 @@ model User {
 }
 
 model Account {
-  id                String  @id @map("_id") @db.ObjectId
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
   type              String
   provider          String
@@ -49,7 +49,7 @@ model Account {
 }
 
 model Conversation {
-  id            String   @id @map("_id") @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
   lastMessageAt DateTime @default(now())
   createdAt     DateTime @default(now())
   name          String?
@@ -62,7 +62,7 @@ model Conversation {
 }
 
 model Message {
-  id        String   @id @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   body      String
   image     String
   createdAt DateTime @default(now())
